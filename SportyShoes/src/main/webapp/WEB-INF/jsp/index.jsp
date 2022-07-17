@@ -12,6 +12,7 @@
 <br/>
 <br/>
 <br/>
-<a href="displayProducts.jsp">Display Products</a>
+<a href="displayProducts">Display Products</a>
+<a href="test">Test Page</a>
 </body>
 </html>
