@@ -14,7 +14,7 @@
   out.println("Please Enter The Quantity");
 %>
 </h3>
-<form action="addItemsToCart" method="post">
+<form action="addItemsToCart?requestedProductId=<%=productId%>" method="post">
   <table border="1">
     <tr>
       <th>Product ID</th>
@@ -35,9 +35,6 @@
       </tr>
     </c:forEach>
   </table>
-  <%
-    request.setAttribute("productId", productId);
-  %>
   <input type="submit" value="Submit">
   <input type="reset" value="Reset">
 </form>

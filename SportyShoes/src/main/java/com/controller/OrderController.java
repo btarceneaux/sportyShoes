@@ -1,12 +1,8 @@
 package com.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.stereotype.Controller;
@@ -20,7 +16,7 @@ import com.service.OrdersService;
 @EntityScan("com.bean")
 public class OrderController 
 {
-	List<Product> = new ArrayList<>();
+	List<Product> myProductList= new ArrayList<>();
 	
 	@Autowired
 	OrdersService orderService;
@@ -56,38 +52,63 @@ public class OrderController
     @PostMapping("/addItemsToCart")
 	public String addItemsToCart(HttpServletRequest req)
 	{  
-    	Product myProduct = (Product)req.getAttribute("product");
+    	String selectedProductId = req.getParameter("requestedProductId");
+    	List<Product> myProductList = orderService.getSelectedProduct(Integer.parseInt(selectedProductId));
+    	
+    	System.out.println("The size of the list is " + lineItemList.size());
+    	Product myProduct = myProductList.get(0);
+    	
+    	String success = "addSuccess";
+    	String failure = "addFailure";
+    	int prId =  Integer.parseInt(selectedProductId);
+    	System.out.println("After the assignment of selectedProductId");
+    	boolean isSuccess = false;
     	
     	// Check to see if the same item was added to the cart. If so, don't add anything.
-    	if(myProductList.size() > 0)
+    	boolean itemFound = false;
+    	
+    	if(lineItemList.size() > 0)
     	{
-    		for(Product p : myProductList)
+    		for(LineItem l : lineItemList)
         	{
-    			if(p.getProductId() == myProduct.getProductId())
+    			if(l.getItemId() == prId)
     			{
-    				return "addFailure";
+    				itemFound = true;
     			}
         	}
-    		
     	}
     	
+    	if(itemFound == false)
+		{
+			int quantity = Integer.parseInt(req.getParameter("quantitySelection"));
+        	int myOrderNumber = getGreatestOrderNumber() + 1;
+       
+        	LineItem myLineItem = new LineItem();
+        	myLineItem.setItemId(prId);
+        	myLineItem.setOrderId(myOrderNumber);
+        	myLineItem.setQuantity(quantity);
+        	myLineItem.setMyProduct(myProduct);
+       	
+        	//Add item to the list
+        	lineItemList.add(myLineItem);
+        	
+        	isSuccess = true;
+		}
     	
+    	if (isSuccess == true)
+    	{
+    		return success;
+    	}
+    	else
+    	{
+    		return failure;
+    	}
 
-    	int quantity = Integer.parseInt(req.getParameter("quantitySelection"));
-    	int myOrderNumber = getGreatestOrderNumber() + 1;
-   
-    	LineItem myLineItem = new LineItem();
-    	myLineItem.setItemId(prId);
-    	myLineItem.setOrderId(myOrderNumber);
-    	myLineItem.setQuantity(quantity);
-    	myLineItem.setMyProduct(myProduct);
-   	
-    	//Add item to the list
-    	lineItemList.add(myLineItem);
+    	
     	
 //    	//Now that the line item has been set, take them back to the page to select products
 
-    	return "addSuccess";
+    	
     	
     	
 //    	Date date = new Date();
@@ -110,8 +131,7 @@ public class OrderController
 //    	
 //		req.setAttribute("quantityOrdered", quantity);
 //		req.setAttribute(null, req);
-//		
-//		return "";
+    	
 	}
     
     @GetMapping("/checkOutItems")

@@ -22,7 +22,6 @@ public class Product
 	public Product()
 	{
 		super();
-		System.out.println("A product Object Was Created!");
 	}
 
 	public int getProductId() {
