@@ -7,12 +7,15 @@
 <title>Sporty Shoes</title>
 </head>
 <body>
+<div style="text-align:right">
+<a href = "login"> Log In</a>
+</div>
 <h1>Welcome To Sporty Shoes</h1>
 <h3>Your Source For Men's Athletic Shoes!</h3>
 <br/>
 <br/>
 <br/>
 <a href="displayProducts">Display Products</a>
-<a href="test">Test Page</a>
+<a href="displayUsers">Display Users</a>
 </body>
 </html>

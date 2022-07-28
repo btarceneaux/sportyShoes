@@ -5,10 +5,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Products Page</title>
+<title>My Cart</title>
 </head>
 <body>
-  <h2>Product Selection</h2><br>
+<h3>
+<%
+  String productId = request.getParameter("id");
+  out.println("Please Enter The Quantity");
+%>
+</h3>
+<form action="addItemsToCart" method="post">
   <table border="1">
     <tr>
       <th>Product ID</th>
@@ -16,18 +22,24 @@
       <th>Description</th>
       <th>Category</th>
       <th>Price</th>
-      <th>Select</th>
+      <th>Select Quantity</th>
     </tr>
-    <c:forEach items="${requestScope.productList}" var="pr" varStatus="loop">
-      <tr>
+    <c:forEach items="${requestScope.product}" var="pr">
+    <tr>
         <td><c:out value="${pr.productId}"></c:out></td>
         <td><c:out value="${pr.productName}"></c:out></td>
         <td><c:out value="${pr.productDesc}"></c:out></td>
         <td><c:out value="${pr.productCategory}"></c:out></td>
         <td><c:out value="${pr.productPrice}"></c:out></td>
-        <td><a href="displaySelection?id=${pr.productId }">  Add To Cart</a></td>
+        <td><input type="number" name="quantitySelection" min="0" max="10" required></td>
       </tr>
     </c:forEach>
-  </table><br>
+  </table>
+  <%
+    request.setAttribute("productId", productId);
+  %>
+  <input type="submit" value="Submit">
+  <input type="reset" value="Reset">
+</form>
 </body>
 </html>
