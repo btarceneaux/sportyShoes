@@ -22,6 +22,9 @@ public class ProductDao
 		
 		List<Product> tempProductList = myQuery.getResultList();
 		System.out.println("Returning list of products from the database");
+		
+		manager.close();
+		
 		return tempProductList;
 	}
 }

@@ -13,4 +13,3 @@ public class SportyShoesApplication {
 		System.out.println("Server running on port 8080.");
 	}
 }
- 

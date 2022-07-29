@@ -23,6 +23,8 @@ public class UserDao
 		List<User> tempUserList = myQuery.getResultList();
 		System.out.println("Getting list of all users.");
 		
+		manager.close();
+		
 		return tempUserList;
 	}
 	

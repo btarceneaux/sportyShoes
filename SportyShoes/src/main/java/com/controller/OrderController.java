@@ -94,7 +94,7 @@ public class OrderController
         	
         	isSuccess = true;
 		}
-    	
+ 
     	if (isSuccess == true)
     	{
     		return success;
@@ -103,43 +103,39 @@ public class OrderController
     	{
     		return failure;
     	}
-
-    	
-    	
-//    	//Now that the line item has been set, take them back to the page to select products
-
-    	
-    	
-    	
-//    	Date date = new Date();
-//    	
-
-//    	System.out.println("Product Id : " + productId);
-//    	System.out.println("Quantity : " + quantity);
-//    	
-//    	//Get the selected product.
-//    	List<Product> tempProductList = orderService.getSelectedProduct(productId); 
-//    	//Since there is only one element we need to assign this to a regular "Product" instead of a list.
-//    	Product tempProduct =tempProductList.get(0);
-//    	
-//    	// Now use the information to populate the Order Object
-//    	// Get the greatest order number and add 1 to it. 
-//    	
-//		myOrder.setPurchaseDate(date);
-//		System.out.println("The date is " + date);
-//		myOrder.setPrice(tempProduct.getProductPrice());
-//    	
-//		req.setAttribute("quantityOrdered", quantity);
-//		req.setAttribute(null, req);
-    	
 	}
     
     @GetMapping("/checkOutItems")
     public String checkOutItems(HttpServletRequest req)
     {
     	System.out.println("Checkout");
-    	
+    	req.setAttribute("myCart", lineItemList);
     	return "checkout";
+    }
+    
+    @PostMapping("/removeFromCart")
+    public String removeFromCart(HttpServletRequest req)
+    {
+    	//First get the item id for removal
+    	int itemSelection = Integer.parseInt(req.getParameter("id"));
+    	int index = 0;
+    	int foundIndex = 0;
+    	System.out.println("selected item " + itemSelection);
+    	
+    	for(LineItem l : lineItemList)
+    	{
+    		if(l.getItemId() == itemSelection)
+    		{
+    			System.out.println("The item to be removed has been found");
+    			foundIndex = index;
+    		}
+    		index++;
+    	}
+    	
+    	lineItemList.remove(foundIndex);
+    	
+    	req.setAttribute("myCart", lineItemList);
+    	return "checkout"; 
     }
 
 }
