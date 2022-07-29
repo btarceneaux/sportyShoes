@@ -113,7 +113,7 @@ public class OrderController
     	return "checkout";
     }
     
-    @PostMapping("/removeFromCart")
+    @GetMapping("/removeFromCart")
     public String removeFromCart(HttpServletRequest req)
     {
     	//First get the item id for removal
