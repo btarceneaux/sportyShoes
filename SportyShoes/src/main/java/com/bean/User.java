@@ -18,9 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class User 
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 	private String emailAddress;
+	private String password;
 	private String lastName;
 	private String firstName;
 	@Autowired
@@ -83,4 +84,14 @@ public class User
 	public void setUserOrder(List<Order> userOrder) {
 		this.userOrder = userOrder;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
 }
