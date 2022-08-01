@@ -12,14 +12,9 @@ public class LineItemService {
 	
 	public int saveLineItem(LineItem myLineItem)
 	{
-		try 
-		{
-			lad.save(myLineItem);
-			return 1;
-		} catch (Exception e) {
-			System.out.println("An error has occured : " + e);
-			return 0;
-		}
+		lad.save(myLineItem);
+		
+		return 1;
 	}
 
 }

@@ -31,7 +31,6 @@
   <hr>
   <h3>Login</h3>
   <jsp:include page="login.jsp" /> 
-  
   &nbsp <a href=createUser>Create User </a>
 </body>
 </html>

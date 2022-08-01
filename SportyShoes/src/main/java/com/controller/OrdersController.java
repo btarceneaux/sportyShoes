@@ -1,7 +1,10 @@
 package com.controller;
 
+//import java.util.Date;
+//import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -9,41 +12,47 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.bean.LineItem;
-import com.bean.Product;
+import com.bean.Orders;
+import com.bean.Products;
+import com.bean.User;
 import com.service.OrdersService;
+import com.service.ProductService;
+import com.service.UserService;
 
 @Controller
 @EntityScan("com.bean")
-public class OrderController 
+public class OrdersController 
 {
-	List<Product> myProductList= new ArrayList<>();
+	List<Products> myProductList= new ArrayList<>();
 	
 	@Autowired
 	OrdersService orderService;
 
+	@Autowired
+	ProductService productService;
+	
+	@Autowired
+	UserService userService;
+	
 	protected List<LineItem> lineItemList = new ArrayList<>();
 	
 	int prId = 0;
 	
-	public int getGreatestOrderNumber()
-	{
-		int numberOfOrders = orderService.getGreatestOrderNumber();
-		
-		return numberOfOrders;
-	}
-	
 	@GetMapping("/displaySelection")
 	public String viewSelection(HttpServletRequest req)
 	{
-		System.out.println("Getting parameters from form");
+		System.out.println("Getting parameters from form. Currently in order controller");
 		String orderProductId = req.getParameter("id");
 		
 		//Get the selected product.
-		List<Product> product = orderService.getSelectedProduct(Integer.parseInt(orderProductId));
-		req.setAttribute("product", product);
+		Optional<Products> product = productService.getProductById(Integer.parseInt(orderProductId));
+		Products myProduct = product.get();
+		List<Products> tempProductList = new ArrayList<Products>();
+		tempProductList.add(myProduct);
 		
-		System.out.println("Order ID : " + orderProductId);
+		req.setAttribute("myProductList", tempProductList);
 		req.setAttribute("productId", orderProductId);
+		
 		prId = Integer.parseInt(orderProductId);
 		
 		return "displaySelection";
@@ -52,15 +61,21 @@ public class OrderController
     @PostMapping("/addItemsToCart")
 	public String addItemsToCart(HttpServletRequest req)
 	{  
-    	String selectedProductId = req.getParameter("requestedProductId");
-    	List<Product> myProductList = orderService.getSelectedProduct(Integer.parseInt(selectedProductId));
+    	//String selectedProductId = req.getParameter("requestedProductId");
+    	Optional<Products> product = productService.getProductById(prId);
+    	// Change to regular list
+    	Products myProduct = product.get();
+		List<Products> tempProductList = new ArrayList<Products>();
+		tempProductList.add(myProduct);
     	
     	System.out.println("The size of the list is " + lineItemList.size());
-    	Product myProduct = myProductList.get(0);
+    	
+    	Products mySelectedProduct = tempProductList.get(0);
+    	float price = mySelectedProduct.getProductPrice();
     	
     	String success = "addSuccess";
     	String failure = "addFailure";
-    	int prId =  Integer.parseInt(selectedProductId);
+    	//int myProductId =  Integer.parseInt(selectedProductId);
     	System.out.println("After the assignment of selectedProductId");
     	boolean isSuccess = false;
     	
@@ -81,13 +96,12 @@ public class OrderController
     	if(itemFound == false)
 		{
 			int quantity = Integer.parseInt(req.getParameter("quantitySelection"));
-        	int myOrderNumber = getGreatestOrderNumber() + 1;
        
         	LineItem myLineItem = new LineItem();
         	myLineItem.setItemId(prId);
-        	myLineItem.setOrderId(myOrderNumber);
         	myLineItem.setQuantity(quantity);
         	myLineItem.setMyProduct(myProduct);
+        	myLineItem.setLineItemTotal(price * quantity);
        	
         	//Add item to the list
         	lineItemList.add(myLineItem);
@@ -116,6 +130,11 @@ public class OrderController
     @GetMapping("/removeFromCart")
     public String removeFromCart(HttpServletRequest req)
     {
+    	if(lineItemList.size() < 1)
+    	{
+    		return "index";
+    	}
+    	
     	//First get the item id for removal
     	int itemSelection = Integer.parseInt(req.getParameter("id"));
     	int index = 0;
@@ -136,6 +155,54 @@ public class OrderController
     	
     	req.setAttribute("myCart", lineItemList);
     	return "checkout"; 
+    }
+    
+    
+    @PostMapping("/storeOrder")
+    public String storeOrderInformation(HttpServletRequest req)
+    {
+    	String userId = (String) req.getParameter("id");
+    	System.out.println("User id is " + userId);
+    	
+    	Optional<User> optionalUser = userService.getUserById(Integer.parseInt(userId));
+    	User myUser = optionalUser.get();
+    	
+//    	// Try a new date format
+//    	Date date = new Date();
+//    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//    	String formattedDate = sdf.format(date);
+//    	java.sql.Date myDate = java.sql.Date.valueOf(formattedDate);
+
+    	// Attach line item list to order object.
+    	Orders myOrder =  new Orders();
+    	
+    	// insert userid
+    	myOrder.setUserId(myUser.getUserId());
+    	//insert line item list
+    	myOrder.setLineItem(lineItemList);
+    
+    	// insert order total
+    	float orderTotal = 0;
+    	for(LineItem li : lineItemList)
+    	{
+    		orderTotal += li.getLineItemTotal();
+    	}
+    	myOrder.setOrderTotal(orderTotal);
+    
+    	// Store order to database
+    	int status = orderService.storeOrder(myOrder);
+    	
+    	if(status != 1)
+    	{
+    		System.out.println("Error! Order was not stored successfully!");
+    	}
+    	else
+    	{
+    		System.out.println("The order was processed correctly. ");
+    	}
+    	
+    	req.setAttribute("myOrder", myOrder);
+    	return "orderCompleted";
     }
 
 }

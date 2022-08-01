@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 @Entity
-public class Product 
+public class Products 
 {
 	@Id
 	@GeneratedValue
@@ -19,7 +19,7 @@ public class Product
 	private String productDesc;
 
 	
-	public Product()
+	public Products()
 	{
 		super();
 	}

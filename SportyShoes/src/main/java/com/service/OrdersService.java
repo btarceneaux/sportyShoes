@@ -1,29 +1,30 @@
 package com.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.bean.Product;
-import com.dao.OrderDao;
+import com.bean.Orders;
+import com.bean.User;
+import com.dao.OrdersDao;
 
 @Service
 public class OrdersService 
 {
 	@Autowired
-	OrderDao ordersDao;
+	OrdersDao orderDao;
 	
-	public List<Product> getSelectedProduct(int id)
+	public List<Orders> getAllOrders()
 	{
-		return ordersDao.getSelectedProduct(id);
+		return orderDao.findAll();
 	}
 	
-	public int getGreatestOrderNumber()
+	public int storeOrder(Orders myOrder)
 	{
-		int count = ordersDao.getGreatestOrderNumber();
+		orderDao.save(myOrder);
 		
-		return count;
+		return 1;
 	}
 
 }

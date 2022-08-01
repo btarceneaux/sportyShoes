@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.bean.Product;
+import com.bean.Products;
 import com.service.ProductService;
 
 @Controller
-public class ProductController 
+public class ProductsController 
 {	
 	@Autowired
 	ProductService productService;
@@ -18,7 +18,7 @@ public class ProductController
 	@GetMapping("/displayProducts")
 	public String displayAllProducts(HttpServletRequest req)
 	{
-		List<Product> productList = productService.getAllProducts();
+		List<Products> productList = productService.getAllProducts();
 		req.setAttribute("productList", productList);
 		
 		return "displayProducts";

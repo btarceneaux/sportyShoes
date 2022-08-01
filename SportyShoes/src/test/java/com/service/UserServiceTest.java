@@ -53,23 +53,26 @@ public class UserServiceTest {
 	{
 		User myUser = new User();
 		Address myAddress = new Address();
-		myAddress.setAddressId(2);
-		myAddress.setAddress("3333 33rd St.");
-		myAddress.setCity("Coarsegold");
-		myAddress.setState("CA");
-		myAddress.setZip("33333");
+		//myAddress.setAddressId(4);
+		myAddress.setAddress("5555 55th St.");
+		myAddress.setCity("New York");
+		myAddress.setState("NY");
+		myAddress.setZip("55555");
 		
-		myUser.setFirstName("Richard");
+		myUser.setFirstName("Jacob");
 		myUser.setLastName("Richardson");
-		myUser.setEmailAddress("richard.richardson@richard.com");
-		myUser.setPassword("qrstuv");
+		myUser.setEmailAddress("jacob.richardson@gmail.com");
+		myUser.setPassword("hjkl");
 		myUser.setUserAddress(myAddress);
-		myUser.setUserId(3);
+		//myUser.setUserId(3);
 		
 		service.storeUser(myUser);
 		
-		Optional<User> newUser = service.getUserById(2);
-		assertEquals("sarah.davidson@sarah.com", newUser.get().getEmailAddress());
+		User newUser = service.getUserByEmailAddress(myUser.getEmailAddress()).get(0);
+		assertEquals("jacob.richardson@gmail.com", newUser.getEmailAddress());
+		
+		//Clean up the database
+		service.removeUser(myUser);
 	}
 	
 	@Test
@@ -78,40 +81,39 @@ public class UserServiceTest {
 	{
 		User myUser = new User();
 		Address myAddress = new Address();
-		myAddress.setAddressId(2);
-		myAddress.setAddress("3333 33rd St.");
-		myAddress.setCity("Coarsegold");
-		myAddress.setState("CA");
-		myAddress.setZip("33333");
+		//myAddress.setAddressId(4);
+		myAddress.setAddress("5555 55th St.");
+		myAddress.setCity("New York");
+		myAddress.setState("NY");
+		myAddress.setZip("55555");
 		
-		myUser.setFirstName("Richard");
+		myUser.setFirstName("Jacob");
 		myUser.setLastName("Richardson");
-		myUser.setEmailAddress("richard.richardson@richard.com");
-		myUser.setPassword("qrstuv");
+		myUser.setEmailAddress("jacob.richardson@gmail.com");
+		myUser.setPassword("hjkl");
 		myUser.setUserAddress(myAddress);
-		myUser.setUserId(3);
-		
-		service.storeUser(myUser);
+		//myUser.setUserId(3);
 		
 		int result = service.login(myUser, "user");
 		assertEquals(1, result);
+		
+		//Clean up the database
+		service.removeUser(myUser);
 	}
 	
 	@Test
 	@DirtiesContext
 	public void login_admin_basic()
 	{
-		Optional<User> testUser = Optional.empty();
-		testUser = service.getUserById(1);
+		User testUser = new User();
+		testUser = service.getUserByEmailAddress("admin@gmail.com").get(0);
 		
-		User myUser = testUser.get();
-		
-		int result = service.login(myUser, "user");
+		int result = service.login(testUser, "user");
 		assertNotEquals(7, result );
-		assertEquals("admin@gmail.com", myUser.getEmailAddress());
-		assertEquals("654321", myUser.getPassword());
+		assertEquals("admin@gmail.com", testUser.getEmailAddress());
+		assertEquals("654321", testUser.getPassword());
 		
-		int finalResult = service.login(myUser, "admin");
+		int finalResult = service.login(testUser, "admin");
 		assertNotEquals(7, finalResult );
 		
 	}

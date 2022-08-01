@@ -1,23 +1,25 @@
 package com.bean;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-@IdClass(LineItemIdentity.class)
 public class LineItem {
-	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int lineItemId;
 	private int itemId;
-	@Id
 	private int orderId;
 	private int quantity;
+	private float lineItemTotal;
 	@OneToOne
-	@JoinColumn(name = "itemId", referencedColumnName = "productId", insertable=false, updatable=false)
-	private Product myProduct;
+    private Products myProduct;
 	
 	public LineItem() {
 		super();
@@ -48,11 +50,29 @@ public class LineItem {
 		this.quantity = quantity;
 	}
 
-	public Product getMyProduct() {
+
+	public float getLineItemTotal() {
+		return lineItemTotal;
+	}
+
+	public void setLineItemTotal(float lineItemTotal) {
+		this.lineItemTotal = lineItemTotal;
+	}
+
+	public int getLineItemId() {
+		return lineItemId;
+	}
+
+	public void setLineItemId(int lineItemId) {
+		this.lineItemId = lineItemId;
+	}
+
+	public Products getMyProduct() {
 		return myProduct;
 	}
 
-	public void setMyProduct(Product myProduct) {
+	public void setMyProduct(Products myProduct) {
 		this.myProduct = myProduct;
 	}
+	
 }

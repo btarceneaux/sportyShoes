@@ -10,11 +10,11 @@
 <body>
 <h3>
 <%
-  String productId = request.getParameter("id");
+  String productId = request.getParameter("productId");
   out.println("Please Enter The Quantity");
 %>
 </h3>
-<form action="addItemsToCart?requestedProductId=<%=productId%>" method="post">
+<form action="addItemsToCart" method="post">
   <table border="1">
     <tr>
       <th>Product ID</th>
@@ -24,7 +24,7 @@
       <th>Price</th>
       <th>Select Quantity</th>
     </tr>
-    <c:forEach items="${requestScope.product}" var="pr">
+    <c:forEach items="${requestScope.myProductList}" var="pr">
     <tr>
         <td><c:out value="${pr.productId}"></c:out></td>
         <td><c:out value="${pr.productName}"></c:out></td>

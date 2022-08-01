@@ -18,6 +18,17 @@ public class UserService
 		return userDao.findAll();
 	}
 	
+	public String removeUser (User myUser)
+	{
+		User u = userDao.findByEmailAddress(myUser.getEmailAddress()).get(0);
+		if(u.getEmailAddress() == myUser.getEmailAddress())
+		{
+			userDao.delete(u);
+		}
+		
+		return "Record deleted successfully";
+	}
+	
 	public String storeUser(User myUser)
 	{
 		Optional<User> u = userDao.findById(myUser.getUserId());
@@ -34,14 +45,15 @@ public class UserService
 	
 	public int login(User myUser, String typeOfUser)
 	{
-		//Should take care of username and password
-		Optional<User> u = userDao.findById(myUser.getUserId());
-		//Regular user
-		if (u.isPresent() && u.get().getEmailAddress() != "admin@gmail.com")
+		System.out.println("in login");
+		// Try to get user with the given email address
+		User requestedUser = userDao.findByEmailAddress(myUser.getEmailAddress()).get(0);
+		
+		if (requestedUser.getEmailAddress() != "admin@gmail.com" && requestedUser.getPassword() == myUser.getPassword())
 		{
 			return 1;
 		}
-		else if (u.isPresent() && u.get().getEmailAddress() == "admin@gmail.com")
+		else if (requestedUser.getEmailAddress() == "admin@gmail.com" && requestedUser.getPassword() == myUser.getPassword())
 		{
 			return 7;
 		}
@@ -57,6 +69,14 @@ public class UserService
 		
 		return myUser;
 	}
+	
+	public List<User> getUserByEmailAddress(String emailAddress)
+	{
+		List<User> myUser = userDao.findByEmailAddress(emailAddress);
+		
+		return myUser;
+	}
+	
 	
 	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,8 +29,8 @@ public class User
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", referencedColumnName = "addressId")
 	private Address userAddress;
-	@OneToMany(mappedBy="myUser")
-	private List<Order> userOrder = new ArrayList<>();
+//	@OneToMany(mappedBy="myUser", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+//	private List<Order> userOrder = new ArrayList<>();
 	
 	public User() 
 	{
@@ -77,13 +78,13 @@ public class User
 		this.userAddress = userAddress;
 	}
 
-	public List<Order> getUserOrder() {
-		return userOrder;
-	}
-
-	public void setUserOrder(List<Order> userOrder) {
-		this.userOrder = userOrder;
-	}
+//	public List<Order> getUserOrder() {
+//		return userOrder;
+//	}
+//
+//	public void setUserOrder(List<Order> userOrder) {
+//		this.userOrder = userOrder;
+//	}
 
 	public String getPassword() {
 		return password;
@@ -92,6 +93,5 @@ public class User
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
+
 }
