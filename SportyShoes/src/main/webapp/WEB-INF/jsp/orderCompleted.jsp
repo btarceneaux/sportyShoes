@@ -8,5 +8,6 @@
 </head>
 <body>
 <h2>Your order has been purchased. </h2>
+<jsp:include page="index.jsp" />
 </body>
 </html>

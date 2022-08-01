@@ -29,17 +29,17 @@ public class UserService
 		return "Record deleted successfully";
 	}
 	
-	public String storeUser(User myUser)
+	public int storeUser(User myUser)
 	{
-		Optional<User> u = userDao.findById(myUser.getUserId());
-		if (u.isPresent())
+		if(userDao.findByEmailAddress(myUser.getEmailAddress()).isEmpty())
 		{
-			return "Record was not stored";
+			userDao.save(myUser);
+			return 1;
 		}
 		else
 		{
-			userDao.save(myUser);
-			return "Record stored successfully";
+			
+			return 0;
 		}
 	}
 	
@@ -49,11 +49,11 @@ public class UserService
 		// Try to get user with the given email address
 		User requestedUser = userDao.findByEmailAddress(myUser.getEmailAddress()).get(0);
 		
-		if (requestedUser.getEmailAddress() != "admin@gmail.com" && requestedUser.getPassword() == myUser.getPassword())
+		if (requestedUser.getEmailAddress() != "admin@gmail.com" && requestedUser.getPwd() == myUser.getPwd())
 		{
 			return 1;
 		}
-		else if (requestedUser.getEmailAddress() == "admin@gmail.com" && requestedUser.getPassword() == myUser.getPassword())
+		else if (requestedUser.getEmailAddress() == "admin@gmail.com" && requestedUser.getPwd() == myUser.getPwd())
 		{
 			return 7;
 		}

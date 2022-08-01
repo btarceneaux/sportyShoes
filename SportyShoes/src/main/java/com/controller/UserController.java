@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.bean.Address;
 import com.bean.User;
 import com.service.UserService;
 
@@ -41,7 +39,7 @@ public class UserController
 		List<User> returnedUser = userService.getUserByEmailAddress(email);
 		for(User u : returnedUser)
 		{
-			if(u.getEmailAddress().equals(email) && u.getPassword().equals(password))
+			if(u.getEmailAddress().equals(email) && u.getPwd().equals(password))
 			{
 				verifiedUser = u;
 				result = userService.login(u, typeOfUser);
@@ -76,31 +74,36 @@ public class UserController
 		return "createUser";	
 	}
 	
-	@PostMapping("/verifyUser")
+	@PostMapping("/verifyUserInformation")
 	public String verifyUserInformation(HttpServletRequest req)
 	{
-		Address myAddress = new Address();
-		User myUser = new User();
+		
 		String success = "login";
 		String failure = "loginFailure";
-		String password = (String) req.getAttribute("password");
-		String confirmPassword = (String) req.getAttribute("confirmPassword");
-		String emailAddress = (String) req.getAttribute("email");
+		String password = (String) req.getParameter("password");
+		String confirmPassword = (String) req.getParameter("confirmPassword");
+		String emailAddress = (String) req.getParameter("email");
 		
-		if(password.equals(confirmPassword) && !emailAddress.equals("admin@gmail.com") )
-		{
-			myAddress.setAddress((String) req.getAttribute("mailingAddress"));
-			myAddress.setCity((String) req.getAttribute("city"));
-			myAddress.setState((String) req.getAttribute("state"));
-			myAddress.setZip((String) req.getAttribute("zipCode"));
-			
-			myUser.setPassword(password);
-			myUser.setFirstName((String) req.getAttribute("firstName"));
-			myUser.setLastName((String) req.getAttribute("lastName"));
+		if(password.equals(confirmPassword))
+		{	
+			User myUser = new User();
+			myUser.setPwd(password);
+			myUser.setFirstName((String) req.getParameter("firstName"));
+			myUser.setLastName((String) req.getParameter("lastName"));
 			myUser.setEmailAddress(emailAddress);
-			myUser.setUserAddress(myAddress);
-			
+			myUser.setMyAddress((String) req.getParameter("mailingAddress"));
+			myUser.setMyCity((String) req.getParameter("city"));
+			myUser.setMyState((String) req.getParameter("state"));
+			myUser.setMyZipCode(Integer.parseInt(req.getParameter("zipCode")));
+					
+			//Store the user to the database
+			int result = userService.storeUser(myUser);
+			if(result == 1)
+			{
+				System.out.println("Record stored successfully!");
+			}
 			return success;
+			
 		}
 		else
 		{

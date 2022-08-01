@@ -4,12 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Create User</title>
 </head>
 <body>
 <h2>Create User</h2>
-<form action="verifyUser" method="post">
-    <h1>User Information</h1>
+<form action="verifyUserInformation" method="post">
+    <h3>User Information</h3>
     <table>
       <tbody>
         <tr>

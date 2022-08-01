@@ -22,15 +22,14 @@ public class User
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 	private String emailAddress;
-	private String password;
+	private String pwd;
 	private String lastName;
 	private String firstName;
-	@Autowired
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id", referencedColumnName = "addressId")
-	private Address userAddress;
-//	@OneToMany(mappedBy="myUser", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
-//	private List<Order> userOrder = new ArrayList<>();
+	private String myAddress;
+	private String myCity;
+	private String myState;
+	private int myZipCode;
+	
 	
 	public User() 
 	{
@@ -70,28 +69,45 @@ public class User
 		this.firstName = firstName;
 	}
 
-	public Address getUserAddress() {
-		return userAddress;
+	public String getPwd() {
+		return pwd;
 	}
 
-	public void setUserAddress(Address userAddress) {
-		this.userAddress = userAddress;
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 
-//	public List<Order> getUserOrder() {
-//		return userOrder;
-//	}
-//
-//	public void setUserOrder(List<Order> userOrder) {
-//		this.userOrder = userOrder;
-//	}
-
-	public String getPassword() {
-		return password;
+	public String getMyAddress() {
+		return myAddress;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setMyAddress(String myAddress) {
+		this.myAddress = myAddress;
 	}
 
+	public String getMyCity() {
+		return myCity;
+	}
+
+	public void setMyCity(String myCity) {
+		this.myCity = myCity;
+	}
+
+	public String getMyState() {
+		return myState;
+	}
+
+	public void setMyState(String myState) {
+		this.myState = myState;
+	}
+
+	public int getMyZipCode() {
+		return myZipCode;
+	}
+
+	public void setMyZipCode(int myZipCode) {
+		this.myZipCode = myZipCode;
+	}
+
+	
 }
