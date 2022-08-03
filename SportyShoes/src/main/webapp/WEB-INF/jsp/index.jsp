@@ -16,5 +16,7 @@
 <br/>
 <br/>
 <a href="displayProducts">Display Products</a>
+&nbsp
+<a href="adminLogin">Administrator Login</a>
 </body>
 </html>

@@ -17,13 +17,65 @@ public class UserController
 	@Autowired
 	UserService userService;
 	
-	@GetMapping("/displayUsers")
+	@GetMapping("/adminLogin")
+	public String adminLogin(HttpServletRequest req)
+	{
+		return "adminLogin";
+	}
+	
+	@GetMapping("/findByName")
+	public String findByFirstAndLastName(HttpServletRequest req)
+	{
+		String firstName = req.getParameter("firstName");
+		String lastName = req.getParameter("lastName");
+		
+		List<User> userList = userService.getUserByFirstNameAndLastName(firstName, lastName);
+		req.setAttribute("userList", userList);
+		
+		return "manageUsers";
+	}
+	
+	@GetMapping("/findByEmail")
+	public String findByEmail(HttpServletRequest req)
+	{
+		String emailAddress = req.getParameter("emailAddress");
+		
+		List<User> userList = userService.getUserByEmailAddress(emailAddress);
+		req.setAttribute("userList", userList);
+		
+		return "manageUsers";
+	}
+	
+	@GetMapping("/deleteUser")
+	public String deleteUser(HttpServletRequest req)
+	{
+		int userId = Integer.parseInt(req.getParameter("id"));
+		User deletedUser = userService.getUserById(userId).get();
+		
+		int result = userService.removeUser(deletedUser);
+		
+		if(result == 1)
+		{
+			System.out.println("The user was successfully deleted");
+		}
+		else
+		{
+			System.out.println("The user was not successfully deleted");
+		}
+		
+		List<User> userList = userService.getAllUsers();
+		req.setAttribute("userList", userList);
+		
+		return "manageUsers";
+	}
+	
+	@GetMapping("/manageUsers")
 	public String displayAllUsers(HttpServletRequest req)
 	{
 		List<User> userList = userService.getAllUsers();
 		req.setAttribute("userList", userList);
 		
-		return "displayUsers";
+		return "manageUsers";
 	}
 	
 	@GetMapping("/loginToSite")

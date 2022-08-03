@@ -40,7 +40,7 @@ public class OrderServiceTest
 		lineItem.setOrderId(myOrder.getOrderId());
 		lineItem.setItemId(3);
 		lineItem.setQuantity(3);
-		lineItem.setLineItemTotal(myProduct.get().getProductPrice() * lineItem.getQuantity());
+		lineItem.setLineItemPrice(myProduct.get().getProductPrice());
 		
 		// This will need to be changed to reflect the actual cost
 		myOrder.setOrderTotal(lineItem.getQuantity() * 100);

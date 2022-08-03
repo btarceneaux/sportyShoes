@@ -84,10 +84,29 @@ public class UserService
 	public List<User> getUserByEmailAddress(String emailAddress)
 	{
 		List<User> myUser = userDao.findByEmailAddress(emailAddress);
-		
-		return myUser;
+		if(myUser.size() > 0)
+		{
+			return myUser;
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
+	public List<User> getUserByFirstNameAndLastName(String firstName, String lastName)
+	{
+		List<User> myUser = userDao.findByFirstNameAndLastName(firstName, lastName);
+		
+		if (myUser.size() == 0)
+		{
+			return null;
+		}
+		else
+		{
+			return myUser;
+		}
+	}
 	
 	
 }

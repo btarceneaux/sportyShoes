@@ -14,7 +14,7 @@ public class LineItem {
 	private int itemId;
 	private int orderId;
 	private int quantity;
-	private float lineItemTotal;
+	private float lineItemPrice;
 	@OneToOne
     private Products myProduct;
 	
@@ -47,13 +47,12 @@ public class LineItem {
 		this.quantity = quantity;
 	}
 
-
-	public float getLineItemTotal() {
-		return lineItemTotal;
+	public float getLineItemPrice() {
+		return lineItemPrice;
 	}
 
-	public void setLineItemTotal(float lineItemTotal) {
-		this.lineItemTotal = lineItemTotal;
+	public void setLineItemPrice(float lineItemPrice) {
+		this.lineItemPrice = lineItemPrice;
 	}
 
 	public int getLineItemId() {

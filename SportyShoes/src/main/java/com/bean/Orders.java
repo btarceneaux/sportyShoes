@@ -25,9 +25,17 @@ public class Orders
 	private int userId;
 	private float orderTotal;
 	@OneToMany(cascade = {CascadeType.ALL})
-//	@JoinColumn(name = "orderId", referencedColumnName="orderId")
 	private List<LineItem> lineItem = new ArrayList<LineItem>();
+	private Date orderDate;
 	
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
 	public List<LineItem> getLineItem() {
 		return lineItem;
 	}

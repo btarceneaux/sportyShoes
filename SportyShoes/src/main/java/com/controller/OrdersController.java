@@ -1,8 +1,10 @@
 package com.controller;
 
+import java.text.SimpleDateFormat;
 //import java.util.Date;
 //import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
@@ -101,7 +103,7 @@ public class OrdersController
         	myLineItem.setItemId(prId);
         	myLineItem.setQuantity(quantity);
         	myLineItem.setMyProduct(myProduct);
-        	myLineItem.setLineItemTotal(price * quantity);
+        	myLineItem.setLineItemPrice(price);
        	
         	//Add item to the list
         	lineItemList.add(myLineItem);
@@ -168,24 +170,23 @@ public class OrdersController
     	User myUser = optionalUser.get();
     	
 //    	// Try a new date format
-//    	Date date = new Date();
-//    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//    	String formattedDate = sdf.format(date);
-//    	java.sql.Date myDate = java.sql.Date.valueOf(formattedDate);
+    	Date date = new Date();
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	String formattedDate = sdf.format(date);
+    	java.sql.Date myDate = java.sql.Date.valueOf(formattedDate);
 
     	// Attach line item list to order object.
     	Orders myOrder =  new Orders();
     	
-    	// insert userid
     	myOrder.setUserId(myUser.getUserId());
-    	//insert line item list
     	myOrder.setLineItem(lineItemList);
-    
+    	myOrder.setOrderDate(myDate);
+        
     	// insert order total
     	float orderTotal = 0;
     	for(LineItem li : lineItemList)
     	{
-    		orderTotal += li.getLineItemTotal();
+    		orderTotal += li.getLineItemPrice() * li.getQuantity();
     	}
     	myOrder.setOrderTotal(orderTotal);
     
@@ -203,6 +204,17 @@ public class OrdersController
     	
     	req.setAttribute("myOrder", myOrder);
     	return "orderCompleted";
+    }
+    
+    @GetMapping("/manageOrders")
+    public String manageOrders(HttpServletRequest req)
+    {
+    	//Get the selected product.
+    	List<Orders> orderList = orderService.getAllOrders();
+
+    	req.setAttribute("allOrders", orderList);
+    			
+    	return "manageOrders";
     }
 
 }

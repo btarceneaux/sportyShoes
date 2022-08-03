@@ -17,7 +17,15 @@ public class OrdersService
 	
 	public List<Orders> getAllOrders()
 	{
-		return orderDao.findAll();
+		List<Orders> orderList = orderDao.findAll();
+		if(orderList.size() > 0)
+		{
+			return orderList;
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	public int storeOrder(Orders myOrder)
