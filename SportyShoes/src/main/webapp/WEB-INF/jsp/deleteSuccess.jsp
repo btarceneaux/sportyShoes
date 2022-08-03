@@ -4,11 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin Home Page</title>
+<title>Delete Successful</title>
 </head>
 <body>
-<h2>Welcome to the Admin Page.</h2>
-<br>
+<h2>Product Deleted</h2><br>
 <a href="manageProducts">Manage Products</a><br>
 </body>
 </html>

@@ -4,11 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin Home Page</title>
+<title>Insert title here</title>
 </head>
 <body>
-<h2>Welcome to the Admin Page.</h2>
-<br>
+<h2>Product was not added</h2>
 <a href="manageProducts">Manage Products</a><br>
 </body>
 </html>

@@ -61,13 +61,13 @@ public class ProductsServiceTest {
 		assertEquals(1, result);
 	}
 	
-	@Test
-	public void deleteProduct()
-	{
-		Products product = service.searchProductByName("Adidas And One Socks");
-		int result = service.deleteProduct(product);
-		
-		assertEquals(1, result);
-	}
+//	@Test
+//	public void deleteProduct()
+//	{
+//		Products product = service.searchProductByName("Adidas And One Socks");
+//		int result = service.deleteProduct(product);
+//		
+//		assertEquals(1, result);
+//	}
 
 }

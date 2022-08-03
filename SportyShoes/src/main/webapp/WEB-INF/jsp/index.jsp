@@ -16,6 +16,5 @@
 <br/>
 <br/>
 <a href="displayProducts">Display Products</a>
-<a href="displayUsers">Display Users</a>
 </body>
 </html>

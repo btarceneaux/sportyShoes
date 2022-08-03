@@ -27,9 +27,16 @@ public class ProductsService
 	
 	public Products searchProductByName(String productName)
 	{
-		Products myProduct = (Products) productDao.findByProductName(productName).get(0);
+		List<Products> myProduct = productDao.findByProductName(productName);
 		
-		return myProduct;
+		if(myProduct.isEmpty())
+		{
+			return null;
+		}
+		else
+		{
+			return myProduct.get(0);
+		}
 
 	}
 	
