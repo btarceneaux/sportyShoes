@@ -16,7 +16,7 @@ import com.bean.Orders;
 import com.bean.Products;
 import com.bean.User;
 import com.service.OrdersService;
-import com.service.ProductService;
+import com.service.ProductsService;
 import com.service.UserService;
 
 @Controller
@@ -29,7 +29,7 @@ public class OrdersController
 	OrdersService orderService;
 
 	@Autowired
-	ProductService productService;
+	ProductsService productService;
 	
 	@Autowired
 	UserService userService;

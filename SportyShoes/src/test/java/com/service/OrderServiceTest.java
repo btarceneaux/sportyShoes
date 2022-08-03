@@ -24,7 +24,7 @@ public class OrderServiceTest
 	OrdersService service;
 	
 	@Autowired
-	ProductService productService;
+	ProductsService productService;
 	
 	@Test
 	public void storeOrder()

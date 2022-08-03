@@ -7,13 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.bean.Products;
-import com.service.ProductService;
+import com.service.ProductsService;
 
 @Controller
 public class ProductsController 
 {	
 	@Autowired
-	ProductService productService;
+	ProductsService productService;
 	
 	@GetMapping("/displayProducts")
 	public String displayAllProducts(HttpServletRequest req)

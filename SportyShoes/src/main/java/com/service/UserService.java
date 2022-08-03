@@ -18,15 +18,19 @@ public class UserService
 		return userDao.findAll();
 	}
 	
-	public String removeUser (User myUser)
+	public int removeUser (User myUser)
 	{
 		User u = userDao.findByEmailAddress(myUser.getEmailAddress()).get(0);
-		if(u.getEmailAddress() == myUser.getEmailAddress())
+		if(u.getEmailAddress().equals(myUser.getEmailAddress()))
 		{
 			userDao.delete(u);
+			return 1;
+		}
+		else
+		{
+			return 0;
 		}
 		
-		return "Record deleted successfully";
 	}
 	
 	public int storeUser(User myUser)
@@ -47,13 +51,20 @@ public class UserService
 	{
 		System.out.println("in login");
 		// Try to get user with the given email address
-		User requestedUser = userDao.findByEmailAddress(myUser.getEmailAddress()).get(0);
 		
-		if (requestedUser.getEmailAddress() != "admin@gmail.com" && requestedUser.getPwd() == myUser.getPwd())
+		if(userDao.findByEmailAddress(myUser.getEmailAddress()).isEmpty())
+		{
+			return 0;
+		}
+		
+		User requestedUser = userDao.findByEmailAddress(myUser.getEmailAddress()).get(0);
+		if (!requestedUser.getEmailAddress().equals("admin@gmail.com") && requestedUser.getPwd().equals(myUser.getPwd())
+				&& typeOfUser.equals("user"))
 		{
 			return 1;
 		}
-		else if (requestedUser.getEmailAddress() == "admin@gmail.com" && requestedUser.getPwd() == myUser.getPwd())
+		else if (requestedUser.getEmailAddress().equals("admin@gmail.com") && requestedUser.getPwd().equals(myUser.getPwd())
+				&& typeOfUser.equals("admin"))
 		{
 			return 7;
 		}
