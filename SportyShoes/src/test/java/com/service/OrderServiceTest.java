@@ -49,7 +49,7 @@ public class OrderServiceTest
 		lineItemList.add(lineItem);
 		assertEquals(1, lineItemList.size());
 		
-		myOrder.setLineItem(lineItemList);
+		//myOrder.setLineItem(lineItemList);
 		
 		int result = service.storeOrder(myOrder);
         

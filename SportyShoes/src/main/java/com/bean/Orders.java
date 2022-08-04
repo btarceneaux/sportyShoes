@@ -20,12 +20,11 @@ import org.hibernate.annotations.Table;
 public class Orders 
 {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int orderId;
 	private int userId;
 	private float orderTotal;
-	@OneToMany(cascade = {CascadeType.ALL})
-	private List<LineItem> lineItem = new ArrayList<LineItem>();
+	//@OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
+	//private List<LineItem> lineItem = new ArrayList<LineItem>();
 	private Date orderDate;
 	
 	public void setOrderDate(Date orderDate) {
@@ -36,13 +35,13 @@ public class Orders
 		return orderDate;
 	}
 
-	public List<LineItem> getLineItem() {
-		return lineItem;
-	}
-
-	public void setLineItem(List<LineItem> lineItem) {
-		this.lineItem = lineItem;
-	}
+//	public List<LineItem> getLineItem() {
+//		return lineItem;
+//	}
+//
+//	public void setLineItem(List<LineItem> lineItem) {
+//		this.lineItem = lineItem;
+//	}
 
 	public Orders() 
 	{

@@ -65,4 +65,17 @@ public class ProductsService
 			return 0;
 		}
 	}
+	
+	public List<Products> findByProductCategory(String productCategory)
+	{
+		List<Products> myProduct = productDao.findByProductCategory(productCategory);
+		if(myProduct.isEmpty())
+		{
+			return null;
+		}
+		else
+		{
+			return myProduct;
+		}
+	}
 }

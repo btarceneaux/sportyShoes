@@ -9,30 +9,29 @@
 </head>
 <body>
 <h2>Manage Orders</h2>
-<h2>All Orders</h2><br>
+<a href="displayAllOrders">View All Orders</a><br>
+<hr>
+<h2>Display Orders By Date</h2>
+<form action="displayOrdersByDate" method="get">
+  <input type="date" name = "selectedDate" required>
+  <input type="submit"/>
+  <input type="reset"/>
+</form>
+<hr>
+<h2>Display Orders By Selected Categories</h2>
+<form action="displayOrdersByCategory" method="get">
   <table border="1">
     <tr>
-      <th>Order ID</th>
-      <th>Order Date</th>
-      <th>User ID</th>
-      <th>Order Total</th>
-      <th>Product Id</th>
-      <th>Quantity</th>
-      <th>Line Item Price</th>
+      <th>Product Category</th>
+      <th>Select Category</th>
     </tr>
-    <c:forEach items="${requestScope.allOrders}" var="orl" varStatus="loop">
-      <tr>
-        <td><c:out value="${orl.orderId}"></c:out></td>
-        <td><c:out value="${orl.orderDate}"></c:out></td>
-        <td><c:out value="${orl.userId}"></c:out></td>
-        <td><c:out value="${orl.orderTotal}"></c:out></td>
-        <c:forEach items="${orl.lineItem}" var="li" varStatus="loop">
-          <td><c:out value="${li.itemId}"></c:out></td>
-          <td><c:out value="${li.quantity}"></c:out></td>
-          <td><c:out value="${li.lineItemPrice}"></c:out></td>
-        </c:forEach>
-      </tr>
+    <c:forEach items="${requestScope.allCategories }" var="cat" varStatus="loop">
+    <tr>
+      <td><c:out value="${cat}"></c:out></td>
+      <td><a href="displayOrdersByCategory?category=${cat}">Select Category</a></td>
+    </tr>
     </c:forEach>
-  </table><br>
+  </table>
+</form>
 </body>
 </html>

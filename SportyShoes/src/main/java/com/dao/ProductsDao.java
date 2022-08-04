@@ -7,4 +7,5 @@ import com.bean.Products;
 public interface ProductsDao extends JpaRepository<Products, Integer>
 {
 	List<Products> findByProductName(String myProductName);
+	List<Products> findByProductCategory(String productCategory);
 }

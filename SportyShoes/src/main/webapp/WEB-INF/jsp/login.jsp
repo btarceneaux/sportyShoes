@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 </head>
 <body>
-  <form action="loginToSite" method="get">
+  <form action="loginToSite" method="post">
     <h1>User Login</h1>
     <table>
       <tbody>

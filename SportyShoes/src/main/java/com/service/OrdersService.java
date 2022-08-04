@@ -1,12 +1,10 @@
 package com.service;
 
+import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.bean.Orders;
-import com.bean.User;
 import com.dao.OrdersDao;
 
 @Service
@@ -34,5 +32,24 @@ public class OrdersService
 		
 		return 1;
 	}
+	
+	public List<Orders> findByDate(Date orderDate)
+	{
+		List<Orders> orderList = orderDao.findByOrderDate(orderDate);
+		if(orderList.size() > 0)
+		{
+			return orderList;
+		}
+		else
+		{
+			return null;
+		}
+	}
 
+	public Orders findByOrderId(int orderId)
+	{
+		Orders myOrder = orderDao.findByOrderId(orderId).get(0);
+		
+		return myOrder;
+	}
 }

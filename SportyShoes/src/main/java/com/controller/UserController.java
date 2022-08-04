@@ -78,7 +78,7 @@ public class UserController
 		return "manageUsers";
 	}
 	
-	@GetMapping("/loginToSite")
+	@PostMapping("/loginToSite")
 	public String loginToSite(HttpServletRequest req)
 	{
 		User verifiedUser = new User();
